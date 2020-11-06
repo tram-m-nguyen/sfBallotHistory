@@ -1,0 +1,35 @@
+<!-- extends the base html -->
+
+{% extends 'base.html' %}
+
+{% block title %} SF Ballot History {% endblock %}
+
+{% block content %}
+<!-- Make form -->
+<main class="container">
+  <h1>SF Ballot History 1961 - 2010</h1>
+
+  <form id="searchForm" class="mt-3 mb-5">
+    <!-- make a row for inputs -->
+    <div class="form-group row">
+      <div class="input-group col-xs-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+        <label>Year: </label>
+        <input id="searchForm-year" type="search" required value="1961" class="form-control" aria-label="Search">
+
+        <!-- Button to submit -->
+        <button type="submit" class="btn btn-primary">Search</button>
+
+      </div>
+
+    </div>
+  </form>
+</main>
+
+<!-- Make area to populate list of ballots -->
+<section id="ballotList" class="row">
+  <!-- JS will populate -->
+
+</section>
+{% endblock %}
+
+
