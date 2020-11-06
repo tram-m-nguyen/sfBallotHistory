@@ -10,13 +10,14 @@ from flask_debugtoolbar import DebugToolbarExtension
 # like routes the __name__ is required and must be written like this
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secret"
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 # in order to use the debugger
 debug = DebugToolbarExtension(app)
 
 
 @app.route("/")
-def index():
+def show_search_form():
     """Shows ballot search form.
     Initially - will render ballots form 1961 
     So has to make an api request to render """
@@ -26,4 +27,3 @@ def index():
     
 
 
-#
