@@ -6,7 +6,7 @@
 
 {% block content %}
 <!-- Make form -->
-<main class="container">
+<section class="container">
   <h1>SF Ballot History 1961 - 2010</h1>
 
   <form  action="search" id="searchForm" class="mt-3 mb-5">
@@ -23,11 +23,28 @@
 
     </div>
   </form>
-</main>
+</section>
 
-<!-- Make area to populate list of ballots -->
+<!-- Make area to populate list of ballot> -->
 <section id="ballotList" class="row">
-  <!-- JS will populate -->
+
+    {% for ballot in ballots_1961 %}
+    <div data-ballot-id="${ballot.subject}" class="Show col-md-6 col-lg-5 mb-4 ml-2">
+      <div class="media">
+        <h4 src="" alt="" class="w-2 mr-4">{{ballot.type_measure}}</h4>
+        <div class="media-body">
+          <h5 class="text-primary">{{ballot.subject}}</h5>
+          <div> Month {{(ballot.month).lower()}}, Year: {{ballot.year}}</div>
+          <div> Yes: {{ballot.yes_votes}}, No: {{ballot.no_votes}}</div>
+          <div> Percent: {{(ballot.percent)}}</div>
+          <div> Status: {{ballot.pass_or_fail}}</div>
+          <div> Type of Measure: {{ballot.type_measure}}</div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+    
 
 </section>
 {% endblock %}
