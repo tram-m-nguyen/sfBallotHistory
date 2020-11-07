@@ -20,7 +20,8 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 def get_ballots(year=None, month=None, subject=None, pass_or_fail=None, 
                 type_measure=None, by=None, keyword1=None, keyword2=None,
                 keyword3=None, keyword4=None, keyword5=None):
-    """Fetch ballot data from SF API.
+    """
+    Fetch ballot data from SF API.
     Query strings: month, year, subject, pass_or_fail, type_measure, 
                 by (measure_placed_by in forms.py), keyword.
     
