@@ -18,8 +18,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 #debug = DebugToolbarExtension(app)
 
 def get_ballots(year=None, month=None, subject=None, pass_or_fail=None, 
-                type_measure=None, by=None, keyword1=None, keyword2=None,
-                keyword3=None, keyword4=None, keyword5=None):
+                type_measure=None, by=None, keyword=None):
     """
     Fetch ballot data from SF API.
     Query strings: month, year, subject, pass_or_fail, type_measure, 
@@ -35,30 +34,73 @@ def get_ballots(year=None, month=None, subject=None, pass_or_fail=None,
     by (measure_placed_by in forms.py): max 2 capital letter. 
         --by indicates how the how the measure was placed on the ballot
     
-    keyword: must be Camel case. API takes specific keyword1, keyword2, keyword3,
-    keyword4, keyword5. Will make an api call with 1 word provided and feed into
-    all the different keywords.
+    keyword: must be Camel case. Input 1 keywords, will make 5 API calls using
+    the same keyword for all 5 keywords to maximize outputs: keyword1, keyword2, keyword3,
+    keyword4, keyword5. 
     """
 
     api_url = "https://data.sfgov.org/resource/xzie-ixjw.json?"
 
-    resp = requests.get(
-        api_url,
-        params={"$$app_token": API_SECRET_KEY, 
-                "year": year, 
-                "month": month, 
-                "subject": subject, 
-                "pass_or_fail": pass_or_fail,
-                "type_measure": type_measure,
-                "by": by,
-                "Keyword1": keyword1,
-                "Keyword1": keyword2,
-                "Keyword1": keyword3,
-                "Keyword1": keyword4,
-                "Keyword1": keyword5,
-                })
+    resp_with_keyword1 = requests.get(
+                                       api_url,
+                                       params={"$$app_token": API_SECRET_KEY, 
+                                                "year": year, 
+                                                "month": month, 
+                                                "subject": subject, 
+                                                "pass_or_fail": pass_or_fail,
+                                                "type_measure": type_measure,
+                                                "by": by,
+                                                "Keyword1": keyword}
+                                                )
 
+    resp_with_keyword2 = requests.get(
+                                       api_url,
+                                       params={"$$app_token": API_SECRET_KEY, 
+                                                "year": year, 
+                                                "month": month, 
+                                                "subject": subject, 
+                                                "pass_or_fail": pass_or_fail,
+                                                "type_measure": type_measure,
+                                                "by": by,
+                                                "Keyword2": keyword}
+                                                )
 
+    resp_with_keyword3 = requests.get(
+                                   api_url,
+                                   params={"$$app_token": API_SECRET_KEY, 
+                                            "year": year, 
+                                            "month": month, 
+                                            "subject": subject, 
+                                            "pass_or_fail": pass_or_fail,
+                                            "type_measure": type_measure,
+                                            "by": by,
+                                            "Keyword3": keyword}
+                                            )                                                
+    
+    resp_with_keyword4 = requests.get(
+                                   api_url,
+                                   params={"$$app_token": API_SECRET_KEY, 
+                                            "year": year, 
+                                            "month": month, 
+                                            "subject": subject, 
+                                            "pass_or_fail": pass_or_fail,
+                                            "type_measure": type_measure,
+                                            "by": by,
+                                            "Keyword4": keyword}
+                                            )
+    
+    resp_with_keyword5 = requests.get(
+                                   api_url,
+                                   params={"$$app_token": API_SECRET_KEY, 
+                                            "year": year, 
+                                            "month": month, 
+                                            "subject": subject, 
+                                            "pass_or_fail": pass_or_fail,
+                                            "type_measure": type_measure,
+                                            "by": by,
+                                            "Keyword5": keyword}
+                                            )
+    
     print ('API RESPONSE', resp.json())
 
     return resp.json()
