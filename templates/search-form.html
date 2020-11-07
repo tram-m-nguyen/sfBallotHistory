@@ -9,7 +9,7 @@
 <section class="container">
   <h1>SF Ballot History 1961 - 2010</h1>
 
-  <form  action="search" id="searchForm" class="mt-3 mb-5">
+  <form action="search" id="searchForm" class="mt-3 mb-5">
     <!-- make a row for inputs -->
     <div class="form-group row">
       <div class="input-group col-xs-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
@@ -28,25 +28,38 @@
 <!-- Make area to populate list of ballot> -->
 <section id="ballotList" class="row">
 
-    {% for ballot in ballots_1961 %}
-    <div data-ballot-id="${ballot.subject}" class="Show col-md-6 col-lg-5 mb-4 ml-2">
-      <div class="media">
-        <h4 src="" alt="" class="w-2 mr-4">{{ballot.type_measure}}</h4>
-        <div class="media-body">
-          <h5 class="text-primary">{{ballot.subject}}</h5>
-          <div> Month {{(ballot.month).lower()}}, Year: {{ballot.year}}</div>
-          <div> Yes: {{ballot.yes_votes}}, No: {{ballot.no_votes}}</div>
-          <div> Percent: {{(ballot.percent)}}</div>
-          <div> Status: {{ballot.pass_or_fail}}</div>
-          <div> Type of Measure: {{ballot.type_measure}}</div>
-        </div>
+  {% for ballot in ballots_1961 %}
+  <div data-ballot-id="${ballot.subject}" class="Show col-md-6 col-lg-5 mb-4 ml-2">
+    <div class="media">
+      <h4 src="" alt="" class="w-2 mr-4">{{ballot.type_measure}}</h4>
+      <div class="media-body">
+        <h5 class="text-primary">{{ballot.subject}}</h5>
+        <div class="type-of-measure"> Type of Measure: <b> {{ballot.type_measure}}</b></div>
+        <div class="month"> Date: <b> {{(ballot.month)}} {{ballot.year}}</b></div>
+        <div class="pass-fail"> <b>Status: {{ "Pass" if ballot.pass_or_fail == "P" else "Fail" }}</b></div>
+        <div class="percent"> Percent of Yes Votes: {{"%.4f"|format(ballot.percent|float)}}</div>
+        <table class="table table-bordered table-sm col-6 table-secondary">
+          <thead class="">
+            <tr class="">
+              <th scope="col">Yes Votes</th>
+              <th scope="col">No Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="">
+              <th scope="row">{{ballot.yes_votes}}</th>
+                <td>{{ballot.no_votes}}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+
       </div>
     </div>
+  </div>
 
-    {% endfor %}
-    
+  {% endfor %}
+
 
 </section>
 {% endblock %}
-
-

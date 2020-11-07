@@ -1,120 +1,30 @@
-# Create flask application
+# Creates flask application
 
 from flask import Flask, request, render_template, jsonify
 import requests
-#import searchForm
 from forms import searchForm
-from project_secret import API_SECRET_KEY
+from ballots import get_ballots
 
-#from flask_debugtoolbar import DebugToolbarExtension
+
+from flask_debugtoolbar import DebugToolbarExtension
 
 # this is how Flask app needs to know what module to scan for for things 
 # like routes the __name__ is required and must be written like this
 app = Flask(__name__)
-#app.config['SECRET_KEY'] = "secret"
+app.config['SECRET_KEY'] = "secret"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 # in order to use the debugger
-#debug = DebugToolbarExtension(app)
-
-def get_ballots(year=None, month=None, subject=None, pass_or_fail=None, 
-                type_measure=None, by=None, keyword=None):
-    """
-    Fetch ballot data from SF API.
-    Query strings: month, year, subject, pass_or_fail, type_measure, 
-                by (measure_placed_by in forms.py), keyword.
-    
-    Year is the only Integer, the rest of the parameters are strings.
-
-    year: Integer
-    month: abbreviated months
-    subject: contains more than one word, each word will be Camel case.
-    pass_or_fail: must be in P or F
-    type_of_measure: max 2 capital letter. Indicates the type of measure.
-    by (measure_placed_by in forms.py): max 2 capital letter. 
-        --by indicates how the how the measure was placed on the ballot
-    
-    keyword: must be Camel case. Input 1 keywords, will make 5 API calls using
-    the same keyword for all 5 keywords to maximize outputs: keyword1, keyword2, keyword3,
-    keyword4, keyword5. 
-    """
-
-    api_url = "https://data.sfgov.org/resource/xzie-ixjw.json?"
-
-    resp_with_keyword1 = requests.get(
-                                       api_url,
-                                       params={"$$app_token": API_SECRET_KEY, 
-                                                "year": year, 
-                                                "month": month, 
-                                                "subject": subject, 
-                                                "pass_or_fail": pass_or_fail,
-                                                "type_measure": type_measure,
-                                                "by": by,
-                                                "Keyword1": keyword}
-                                                )
-
-    resp_with_keyword2 = requests.get(
-                                       api_url,
-                                       params={"$$app_token": API_SECRET_KEY, 
-                                                "year": year, 
-                                                "month": month, 
-                                                "subject": subject, 
-                                                "pass_or_fail": pass_or_fail,
-                                                "type_measure": type_measure,
-                                                "by": by,
-                                                "Keyword2": keyword}
-                                                )
-
-    resp_with_keyword3 = requests.get(
-                                   api_url,
-                                   params={"$$app_token": API_SECRET_KEY, 
-                                            "year": year, 
-                                            "month": month, 
-                                            "subject": subject, 
-                                            "pass_or_fail": pass_or_fail,
-                                            "type_measure": type_measure,
-                                            "by": by,
-                                            "Keyword3": keyword}
-                                            )                                                
-    
-    resp_with_keyword4 = requests.get(
-                                   api_url,
-                                   params={"$$app_token": API_SECRET_KEY, 
-                                            "year": year, 
-                                            "month": month, 
-                                            "subject": subject, 
-                                            "pass_or_fail": pass_or_fail,
-                                            "type_measure": type_measure,
-                                            "by": by,
-                                            "Keyword4": keyword}
-                                            )
-    
-    resp_with_keyword5 = requests.get(
-                                   api_url,
-                                   params={"$$app_token": API_SECRET_KEY, 
-                                            "year": year, 
-                                            "month": month, 
-                                            "subject": subject, 
-                                            "pass_or_fail": pass_or_fail,
-                                            "type_measure": type_measure,
-                                            "by": by,
-                                            "Keyword5": keyword}
-                                            )
-    
-    print ('API RESPONSE', resp.json())
-
-    return resp.json()
-
+debug = DebugToolbarExtension(app)
 
 
 @app.route("/")
 def show_search_form():
     """Shows ballot search form.
-    Initially - will render ballots on 1962 to render."
-    o has to make an api request to render. """
+    Initially - will render all ballots for 1962 to render. """
 
-    # make api call to load ballots for 1961 
-    ballots_1961 = get_ballots(1961)
+    ballots_1961 = get_ballots(year=1982)
+    print('this is ballots_1961', len(ballots_1961))
 
     return render_template("search-form.html", ballots_1961=ballots_1961)
 
