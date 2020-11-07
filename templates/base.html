@@ -15,17 +15,11 @@
   <link href="/static/base.css" rel="stylesheet">
 </head>
 <body>
-
-  <!-- show messages if there is an error -->
-  {% for msg in get_flashed_message() %}
-    <div class='alert'>{{msg}}</div>
-  {% endfor %}
-
-  <div>
     
-    {% block content %} {% endblock %}
+    {% block content %} 
+    {% endblock %}
 
-  </div>
-  
 </body>
 </html>
+
+
