@@ -4,10 +4,15 @@ import requests
 """Function for handling api call to get search queries"""
 
 
-def get_ballots(year=None, month=None, subject=None, pass_or_fail=None, 
+def get_ballots_for_queries(year=None, month=None, subject=None, pass_or_fail=None, 
                 type_measure=None, by=None, keyword=None):
     """
     Function to fetch ballots based on queries from SF APIS.
+
+    Return [] array if no ballots found, 
+        else: array of ballot dictionaries like[{month, year, letter, subject, 
+        yes_votes, no_votes, pass_or_fail, percent, type_measure, by, keyworkd1 
+        keyword2, or keyword3, or keyword4 or keyword5}]
     
     Year is the only Integer, the rest of the parameters are strings.
 
@@ -30,7 +35,7 @@ def get_ballots(year=None, month=None, subject=None, pass_or_fail=None,
 
     api_url = "https://data.sfgov.org/resource/xzie-ixjw.json?"
 
-    #if no keyword provided,then make one api call, otherwise make all 5 api calls.
+    #if no keyword provided,then make one api call, else make 5 api calls
     if keyword is None:
       resp_with_keyword1 = requests.get( api_url,
                                        params={"$$app_token": API_SECRET_KEY, 
@@ -105,6 +110,12 @@ def get_ballots(year=None, month=None, subject=None, pass_or_fail=None,
     resp_keyword3_json = resp_with_keyword3.json()
     resp_keyword4_json = resp_with_keyword4.json()
     resp_keyword5_json = resp_with_keyword5.json()
+
+    print ('API RESPONSE1', resp_keyword1_json)
+    print ('API RESPONSE2', resp_keyword2_json)
+    print ('API RESPONSE3', (resp_with_keyword3.json()))
+    print ('API RESPONSE4', (resp_with_keyword4.json()))
+    print ('API RESPONSE5', (resp_with_keyword5.json()))
 
     final_list = resp_keyword1_json + resp_keyword2_json + resp_keyword3_json + \
                  resp_keyword4_json + resp_keyword5_json
