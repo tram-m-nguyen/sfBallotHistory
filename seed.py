@@ -12,7 +12,7 @@ with open('generator/searches.csv') as ballot_searches:
     db.session.bulk_insert_mappings(BallotSearch, DictReader(ballot_searches))
 
 
-with open('generator/ballots.csv') as ballots:
+with open('generator/ballots.csv', encoding = "ISO-8859-1") as ballots:
     db.session.bulk_insert_mappings(BallotsFromMainDB, DictReader(ballots))
 
 db.session.commit()
