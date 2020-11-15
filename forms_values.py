@@ -1,5 +1,5 @@
 #Valid months, type of measures and measure_placed_by
-VALID_MONTHS = [("", "Select a Month"),
+VALID_MONTHS = [("", "- Month - "),
                 ("January",'JAN'),
                 ("February",'FEB'),
                 ("March",'MARCH'),
@@ -15,7 +15,7 @@ VALID_MONTHS = [("", "Select a Month"),
 
 #when you query, do bond or bonds to the large database
 VALID_TYPES_OF_MEASURES = [
-("", "Select a Type of measure"),
+("", "----"),
 ("Amendment","Amendment"),
 ("Bond/Bonds", "Bond/Bonds"),
 ("Charter", "Charter"),
@@ -40,7 +40,7 @@ VALID_TYPES_OF_MEASURES = [
 ("Withdrawn", "Withdrawn"),]
 
 VALID_MEASURES_PLACED_BY = [
-("", "Select Ballot Status"), 
+("", "----"), 
 ("Board of Directors of the San Francisco Bay Area Rapid Transit District ", "Board of Directors of the San Francisco Bay Area Rapid Transit District "),
 ("Board of Education", "Board of Education"),
 ("Board of Supervisors", "Board of Supervisors"),

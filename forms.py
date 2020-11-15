@@ -30,10 +30,9 @@ class searchForm(FlaskForm):
                                         choices=VALID_MEASURES_PLACED_BY)
  
     pass_or_fail = SelectField("Pass or Fail", 
-                                choices=[   ("", "Select Ballot Status"),
+                                choices=[   ("", "- Ballot Status -"),
                                             ('P', 'Pass'), 
                                             ('F', 'Fail')])
-
 
 
 

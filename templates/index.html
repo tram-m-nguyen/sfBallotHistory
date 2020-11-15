@@ -13,24 +13,31 @@
   <!-- check if it's a year, prop#, month, pass or fail, if yes-- render thema ll togethr -->
   <form action="/search" id="searchForm" method="POST" class="mt-3 mb-5">
     {{ form.hidden_tag() }}
+
     <div class="form-row">
       {% if form.subject and form.subject.widget.input_type != "hidden" %}
       <div class="form-group col-md-8">
         Enter keyword in Prop title:
         <!-- {{form.subject.label}} this font is too small so take out-->
         {{form.subject(class="search-field form-control")}}
+
+        {% for error in form.subject.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif %}
       {% if form.prop_letter and form.prop_letter.widget.input_type != 'hidden' %}
       <div class='form-group col-md-4'>
         Proposition letter or number
         {{form.prop_letter(placeholder=form.prop_letter.label.text, class="search-field form-control")}}
+        {% for error in form.prop_letter.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+
       </div>
       {% endif %}
 
-
     </div>
-
 
     <div class="form-row mt-1">
       {% if form.type_of_measure and form.type_of_measure.widget.input_type != "hidden" %}
@@ -38,6 +45,10 @@
         <!-- {{form.type_of_measure.label}} -->
         Type of measure:
         {{form.type_of_measure(class="search-field form-control")}}
+
+        {% for error in form.type_of_measure.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif%}
       {% if form.measure_placed_by and form.measure_placed_by.widget.input_type != "hidden" %}
@@ -45,11 +56,13 @@
         <!-- {{form.measure_placed_by.label}} -->
         How it was placed on the ballot:
         {{form.measure_placed_by(class="search-field form-control")}}
+
+        {% for error in form.measure_placed_by.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif%}
     </div>
-
-
 
     <div class="form-row mt-1">
       {% if form.month and form.month.widget.input_type != "hidden" %}
@@ -57,6 +70,10 @@
         <!-- {{form.month.label}} -->
         Month:
         {{form.month(class="search-field form-control")}}
+
+        {% for error in form.month.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif %}
 
@@ -64,7 +81,11 @@
       <div class='form-group col-md-4'>
         <!-- {{form.year.label}} -->
         Year:
-        {{form.year(placeholder="Enter a year", class="search-field form-control")}}
+        {{form.year(placeholder="1915", class="search-field form-control")}}
+
+        {% for error in form.year.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif %}
 
@@ -73,6 +94,10 @@
         <!-- {{form.pass_or_fail.label}} -->
         Status:
         {{form.pass_or_fail(placeholder=form.pass_or_fail.label.text, class="search-field form-control")}}
+
+        {% for error in form.pass_or_fail.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
       </div>
       {% endif %}
     </div>
@@ -97,16 +122,19 @@
       <div class="media-body">
         <h5 class="text-info">{{ballot.ballot_subject}}</h5>
 
-        <div class="description" style="text-align: justify;"> <p>{{ ballot.description }}</p></div>
+        <div class="description" style="text-align: justify;">
+          <p>{{ ballot.description }}</p>
+        </div>
 
         <div class="type-of-measure"> Type of Measure: <b class="text-info"> {{ballot.type_of_measure}}</b></div>
-        
+
         <div>Who placed measure on the ballot: <b class="text-info"> {{ballot.measure_placed_on_ballot_by}}</b></div>
-        
-        <div class="month"> Date: <b class="text-info"> {{(ballot.month)}} {{ballot.year}}</b>  </div>
-        
-        <div class="pass-fail"> Status: <b class="text-info"> {{ "Pass" if ballot.pass_or_fail == "P" else "Fail" }}</b></div>
-        
+
+        <div class="month"> Date: <b class="text-info"> {{(ballot.month)}} {{ballot.year}}</b> </div>
+
+        <div class="pass-fail"> Status: <b class="text-info"> {{ "Pass" if ballot.pass_or_fail == "P" else "Fail" }}</b>
+        </div>
+
         <div class="description">
           Proposition: <b class="text-info">{{ ballot.prop_letter }}</b>
         </div>
