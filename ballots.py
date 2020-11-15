@@ -32,7 +32,7 @@ def get_ballots_for_queries(year=None, month=None, subject=None, pass_or_fail=No
       be overlap based on how the API is set up. 
       5 keywords queries strings: keyword1, keyword2, keyword3, keyword4, keyword5. 
     """
-
+     
     api_url = "https://data.sfgov.org/resource/xzie-ixjw.json?"
 
     #if no keyword provided,then make one api call, else make 5 api calls

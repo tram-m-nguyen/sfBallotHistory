@@ -13,6 +13,9 @@ class searchForm(FlaskForm):
 
     subject = StringField("Subject")
 
+    month = SelectField("Month", 
+                             choices=VALID_MONTHS)
+
     year = IntegerField("Year", 
                             validators=[NumberRange(1907, 2020)])
     
@@ -25,12 +28,7 @@ class searchForm(FlaskForm):
     #refers to col "by" in search query
     measure_placed_by = SelectField('How measure was placed on ballot',
                                         choices=VALID_MEASURES_PLACED_BY)
-
  
-
-    month = SelectField("Month", 
-                             choices=VALID_MONTHS)
-
     pass_or_fail = SelectField("Pass or Fail", 
                                 choices=[   ("", "Select Ballot Status"),
                                             ('P', 'Pass'), 

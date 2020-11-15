@@ -3,6 +3,7 @@ import requests
 from ballots import get_ballots_for_queries
 from models import db, connect_db, BallotSearch, BallotsFromMainDB
 from forms import searchForm
+from helpers import yes_votes, no_votes, display_vote_percents
 
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -26,7 +27,6 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 
 
-
 @app.route("/")
 def homepage():
     """ Shows ballot search form.
@@ -41,9 +41,15 @@ def homepage():
     form = searchForm()
 
     # get all ballots from 1907 in the db and return array of objects.
-    ballots_1907 = BallotsFromMainDB.query.filter_by(year = 1907)    
+    ballots_1907 = BallotsFromMainDB.query.filter_by(year = 1915) 
+    year = 1915
+
     
-    return render_template("index.html", ballots=ballots_1907, form=form)
+    return render_template("index.html", ballots=ballots_1907, year=year,
+                                        total_ballots=total_ballots, 
+                                        form=form, yes_votes=yes_votes, 
+                                        no_votes=no_votes,
+                                        display_vote_percents=display_vote_percents)
 
 # logic for form:
 # if year is provided and it's between 1961-2000
