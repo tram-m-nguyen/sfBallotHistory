@@ -63,25 +63,29 @@ class BallotsFromMainDB(db.Model):
     year = db.Column(db.Integer, nullable=False)
     date = db.Column(db.String, nullable=False)
     prop_letter = db.Column(db.Text, nullable=True)
-    ballot_subject = db.Column(db.String, nullable=True) 
+    ballot_subject = db.Column(db.String, nullable=False) 
     type_of_measure = db.Column(db.Text, nullable=False)
-    measure_placed_on_ballot_by = db.Column(db.Text, nullable=True)
     description = db.Column(db.String, nullable=False)
     pass_or_fail = db.Column(db.String, nullable=True)
+    measure_placed_on_ballot_by = db.Column(db.Text, nullable=True)
     vote_counts = db.Column(db.String, nullable=True)
-    percent = db.Column(db.String, nullable=True)
+    percent_vote = db.Column(db.String, nullable=True)
     percent_required_to_pass = db.Column(db.String, nullable=True)
     pdf_available = db.Column(db.String, nullable=False)
+  
   
     def __repr__(self):
         """Returns a representation of ballot instance."""
 
-        return f"<BallotFromMainDatabase year: {self.year}, month: {self.month}, \n \
-                prop_letter: {self.prop_letter}, subject: {self.ballot_subject}, \n \
+        return f"<BallotsFromMainDB year: {self.year}, month: {self.month}, \n \
+                ballot_subject: {self.ballot_subject}, \n \
+                prop_letter: {self.prop_letter}, \n \
                 type_of_measure: {self.type_of_measure}, \n \
                 measure_placed_on_ballot_by: {self.measure_placed_on_ballot_by}, \n \
-                description: {self.description}, pass_of_fail: {self.pass_or_fail}, \n\
-                votes_counts: {self.vote_counts}, percent: {self.percent}, \n \
+                description: {self.description}, \n \
+                pass_of_fail: {self.pass_or_fail}, \n\
+                votes_counts: {self.vote_counts}, \n \
+                percent: {self.percent_vote}, \n \
                 percent_required_to_pass: {self.percent_required_to_pass}, \n \
                 pdf_avail: {self.pdf_available} >"
   
@@ -106,31 +110,3 @@ class BallotsFromMainDB(db.Model):
     #         "percent_required_to_pass": self.percent_required_to_pass,
     #         "pdf_available": self.pdf_available
     #         }
-
-
-
-
-# old dataset before cleaning excel spreadsheet
-
-#   compare api to main excel spreasheet
-# {   name_in_api: col_name_in_excel: values_format
-#     "month- NOV": "Month-November", 
-#     "year": "Year",
-#     "letter": "PropLetter",
-#     "subject": "PropTitle",
-#     "yes_votes": "66982",
-#     "no_votes": "69060",
-#     "pass_or_fail": "F",
-#     "percent": "0.49236265271019242",
-#     "type_measure": "KindOfProp",
-#     "by": "HowPlaced",
-#     "keyword1": "Annual Budget",
-#     "keyword2": "Fiscal Year",
-#     "keyword3": "General Fund"
-
-#     extras: excel spreasheet has Month, Day, Year Nov-7-1961 
-#     fullImage: name of pdf of the ballots 
-#     ex: fullImage: November7_1961 -> go to sf https://sfpl.org/locations/main-library/government-information-center/san-francisco-government/san-francisco-1/san
-#     and click on November 7, 1961 and you'll go to this site with pdf: 
-#     https://webbie1.sfpl.org/multimedia/pdf/elections/November7_1961.pdf
-#   }
