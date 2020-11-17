@@ -6,16 +6,27 @@ import csv
 from faker import Faker
 import random
 
-SEARCH_BALLOTS_HEADERS=["year", "month", "subject", "type_of_measure", \
+SEARCH_BALLOTS_HEADERS=["year", "month", "ballot_subject", "type_of_measure", \
                           "measure_placed_on_ballot_by", "pass_or_fail", \
-                          "keyword"]
+                          "prop_letter"]
                           
-VALID_MONTHS = ['FEB','MAR', 'APR', 'JUN', 'AUG', 'NOV', 'DEC']
+VALID_MONTHS = "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"]
 
 
-SUBJECTS = [ "Earthquake Safety and Emergency Response Bond",
-    "Retirement Benefit Costs",
-    "Film Commission",
+SUBJECTS = [ "Seeding fake Testing Data now",
+    "Retirement Retirement Retirement Retirement Retirement",
+    "Commission Commission",
     "Budget Line Item for Police Department Security for City Officials and Dignitaries",
     "Renters’ Financial Hardship Applications",
     "Transbay Transit Center",
