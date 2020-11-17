@@ -61,13 +61,58 @@ def display_vote_percents(string):
     Final string: 'Yes: 83.3%  |  No: 16.7%'
 
         >>> display_vote_percents('Yes: 91.8%  /  No: 8.2%')                        
-        'Yes: 91.8%   |   No: 8.2%'
+        'Yes: 91.8%  |  No: 8.2%'
         >>> display_vote_percents('Yes: 54.3%  /  No: 45.7%')                       
-        'Yes: 54.3%   |   No: 45.7%'
+        'Yes: 54.3%  |  No: 45.7%'
         >>> display_vote_percents('Yes: 57.4%  /  No: 42.6%')                       
-        'Yes: 57.4%   |   No: 42.6%'
+        'Yes: 57.4%  |  No: 42.6%'
 
 
     """
 
     return string.replace(" / ", " | ")
+
+
+def is_form_empty(formInputs):
+    """
+    Returns a Boolean. True is all inputs are empty or None. Else, return False.
+
+    formInputs is an object of form keys and values. 
+
+    Before: {'subject': '', 'month': '', 'year': None, 'prop_letter': '', 
+    'type_of_measure': '', 'measure_placed_by': '', 'pass_or_fail': ''}
+
+
+        >>> is_form_empty({'subject': '', 'month': '', 'year': None, \
+            'prop_letter': '', 'type_of_measure': '', 'measure_placed_by': '', \
+            'pass_or_fail': ''})               
+        True
+
+        >>> is_form_empty({'subject': 'education', 'month': '', 'year': 2015, \
+            'prop_letter': '', 'type_of_measure': '', 'measure_placed_by': '', \
+            'pass_or_fail': ''})                     
+        False
+
+        >>> is_form_empty({'subject': 'education', 'month': '', 'year': None, \
+            'prop_letter': '', 'type_of_measure': '', 'measure_placed_by': '', \
+            'pass_or_fail': 'Pass'})                     
+        False
+
+
+
+    """
+
+    inputs = formInputs.values()
+
+    # any return True for any values in iterable that's true
+        
+    return not any(inputs)
+
+
+def canTurnIntoInteger(ballot_subject):
+    """Return True if can turn string into integer."""
+    try:
+        ballot = int(ballot_subject)
+        return True
+    except ValueError:
+        return False 
