@@ -39,7 +39,7 @@ VALID_TYPES_OF_MEASURES = [
 ("Tax",  "Tax"), 
 ("Withdrawn", "Withdrawn"),]
 
-VALID_MEASURES_PLACED_BY = [
+VALID_MEASURES_PLACED_ON_BALLOT_BY = [
 ("", "----"), 
 ("Board of Directors of the San Francisco Bay Area Rapid Transit District ", "Board of Directors of the San Francisco Bay Area Rapid Transit District "),
 ("Board of Education", "Board of Education"),
