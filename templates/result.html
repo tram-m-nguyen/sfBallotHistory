@@ -1,0 +1,183 @@
+<!-- extends the base html -->
+
+{% extends 'base.html' %}
+
+{% block title %} SF Ballot History {% endblock %}
+
+{% block content %}
+<section class="container">
+  <h1 class="pt-5 text-center text-primary">San Francisco Ballot Propositions</h1>
+  <p class="text-center p-3">Database contains ballot propositions form 1907 to 2020 </p>
+  <p class="text-center"></p>
+
+  <!-- check if it's a year, prop#, month, pass or fail, if yes-- render thema ll togethr -->
+  <form action="/search" id="searchForm" method="POST" class="mt-3 mb-5">
+    {{ form.hidden_tag() }}
+
+    <div class="form-row">
+      {% if form.ballot_subject and form.ballot_subject.widget.input_type != "hidden" %}
+      <div class="form-group col-md-8">
+        Enter keyword in Prop title:
+        <!-- {{form.ballot_subject.label}} this font is too small so take out-->
+        {{form.ballot_subject(placeholder=search_inputs["ballot_subject"], class="search-field form-control")}}
+
+        {% for error in form.ballot_subject.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if form.prop_letter and form.prop_letter.widget.input_type != 'hidden' %}
+      <div class='form-group col-md-4'>
+        Proposition letter or number
+        {{form.prop_letter(placeholder=search_inputs["prop_letter"], class="search-field form-control")}}
+        {% for error in form.prop_letter.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+
+      </div>
+      {% endif %}
+
+    </div>
+    <div class="form-row mt-1">
+      {% if form.type_of_measure and form.type_of_measure.widget.input_type != "hidden" %}
+      <div class="form-group col-md-6">
+        <!-- {{form.type_of_measure.label}} -->
+        Type of measure:
+        {{form.type_of_measure(placeholder=search_inputs["type_of_measure"], class="search-field form-control")}}
+
+        {% for error in form.type_of_measure.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif%}
+      {% if form.measure_placed_on_ballot_by and form.measure_placed_on_ballot_by.widget.input_type != "hidden" %}
+      <div class="form-group col-md-6">
+        <!-- {{form.measure_placed_on_ballot_by.label}} -->
+        How it was placed on the ballot:
+        {{form.measure_placed_on_ballot_by(placeholder=search_inputs["measure_placed_on_ballot_by"] ,class="search-field form-control")}}
+
+        {% for error in form.measure_placed_on_ballot_by.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif%}
+    </div>
+
+    <div class="form-row mt-1">
+      {% if form.month and form.month.widget.input_type != "hidden" %}
+      <div class="form-group col-md-4">
+        Month:
+        {{form.month(placeholder=search_inputs["month"], class="search-field form-control")}}
+
+        {% for error in form.month.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if form.year and form.year.widget.input_type != 'hidden' %}
+      <div class='form-group col-md-4'>
+        <!-- {{form.year.label}} -->
+        Year:
+        {{form.year(placeholder=search_inputs["year"], class="search-field form-control")}}
+
+        {% for error in form.year.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if form.pass_or_fail and form.pass_or_fail.widget.input_type != 'hidden' %}
+      <div class='form-group col-md-4'>
+        <!-- {{form.pass_or_fail.label}} -->
+        Status:
+        {{form.pass_or_fail(placeholder=search_inputs["pass_or_fail"], class="search-field form-control")}}
+
+        {% for error in form.pass_or_fail.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-block">Search</button>
+
+    </div>
+  </form>
+</section>
+
+<div class="d-flex p-5 justify-content-center">
+  <h2 class="text-primary">{{results_total}} Results for Ballot Propositions in {{year}}: </h2>
+</div>
+
+<!-- Make area to populate list of ballot> -->
+<section class="ballotList row">
+  {% for ballot in ballots %}
+  <div data-ballot-id="${ballot.ballot_subject}" class="Show col-md-6 col-lg-5 ml-5 mr-4 mb-5">
+    <div class="media">
+      <h4 src="" alt="" class="w-2 mr-3 text-info">{{ballot.prop_letter}}</h4>
+      <div class="media-body">
+        <h5 class="text-info">{{ballot.ballot_subject}}</h5>
+
+        <div class="description" style="text-align: justify;">
+          <p>{{ ballot.description }}</p>
+        </div>
+
+        <div class="pdf-available">
+          Voter Pamphlet (pdf):
+          {% if ballot.pdf_avaliable != "no image" %}
+          <b>
+            <a href="https://webbie1.sfpl.org/multimedia/pdf/elections/{{ballot.pdf_available}}.pdf"
+              target="_blank" rel="noopener noreferrer"> {{ballot.pdf_available}} </a>
+          </b>
+
+          {% else %}
+          <b class="text-info">
+
+            {{ballot.pdf_available}}
+          </b>
+          {% endif %}
+        </div>
+
+
+        <div class="type-of-measure"> Type of Measure: <b class="text-info"> {{ballot.type_of_measure}}</b></div>
+
+        <div>Who placed measure on the ballot: <b class="text-info"> {{ballot.measure_placed_on_ballot_by}}</b></div>
+
+        <div class="month"> Date: <b class="text-info"> {{(ballot.month)}} {{ballot.year}}</b> </div>
+
+        <div class="pass-fail"> Status: <b class="text-info"> {{ "Pass" if ballot.pass_or_fail == "P" else "Fail" }}</b>
+        </div>
+
+        <div class="description">
+          Proposition: <b class="text-info">{{ ballot.prop_letter }}</b>
+        </div>
+        <div class="percent"> {{displayVotePercents(ballot.percent_vote)}}</div>
+        <!-- <div class="percent"> Percent of Yes Votes: {{"%.4f"|format(ballot.percent_vote|float)}}</div> -->
+
+        <table class="table table-bordered table-hover table-sm  text-center col-6 mt-1">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Yes Votes</th>
+              <th scope="col">No Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-dark">
+              <th scope="row align-text-center">{{yesVotes(ballot.vote_counts)}}</th>
+              <th scope="row">{{noVotes(ballot.vote_counts)}}</th>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+
+</section>
+{% endblock %}

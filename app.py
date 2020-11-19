@@ -48,9 +48,11 @@ def homepage():
     # get all ballots from 1907 in the db and return array of objects.
     ballots_1907 = BallotsFromMainDB.query.filter_by(year = 1915) 
     year = 1915
+    results_total = len(ballots_1907.all())
 
     
     return render_template("index.html", ballots=ballots_1907, year=year,
+                                        results_total=results_total,
                                         total_ballots=total_ballots, 
                                         form=form, yesVotes=yesVotes, 
                                         noVotes=noVotes,
