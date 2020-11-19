@@ -7,7 +7,7 @@
 {% block content %}
 <section class="container">
   <h1 class="pt-5 text-center text-primary">San Francisco Ballot Propositions</h1>
-  <p class="text-center p-3">Database contains ballot propositions form 1907 to 2020 </p>
+  <p class="text-center p-3">Search our database for ballot propositions from 1907 to 2020 </p>
   <p class="text-center"></p>
 
   <!-- check if it's a year, prop#, month, pass or fail, if yes-- render thema ll togethr -->
@@ -15,13 +15,13 @@
     {{ form.hidden_tag() }}
 
     <div class="form-row">
-      {% if form.subject and form.subject.widget.input_type != "hidden" %}
+      {% if form.ballot_subject and form.ballot_subject.widget.input_type != "hidden" %}
       <div class="form-group col-md-8">
         Enter keyword in Prop title:
-        <!-- {{form.subject.label}} this font is too small so take out-->
-        {{form.subject(class="search-field form-control")}}
+        <!-- {{form.ballot_subject.label}} this font is too small so take out-->
+        {{form.ballot_subject(class="search-field form-control")}}
 
-        {% for error in form.subject.errors %}
+        {% for error in form.ballot_subject.errors %}
         <span class="text-danger">{{ error }}</span>
         {% endfor %}
       </div>
@@ -51,13 +51,13 @@
         {% endfor %}
       </div>
       {% endif%}
-      {% if form.measure_placed_by and form.measure_placed_by.widget.input_type != "hidden" %}
+      {% if form.measure_placed_on_ballot_by and form.measure_placed_on_ballot_by.widget.input_type != "hidden" %}
       <div class="form-group col-md-6">
-        <!-- {{form.measure_placed_by.label}} -->
+        <!-- {{form.measure_placed_on_ballot_by.label}} -->
         How it was placed on the ballot:
-        {{form.measure_placed_by(class="search-field form-control")}}
+        {{form.measure_placed_on_ballot_by(class="search-field form-control")}}
 
-        {% for error in form.measure_placed_by.errors %}
+        {% for error in form.measure_placed_on_ballot_by.errors %}
         <span class="text-danger">{{ error }}</span>
         {% endfor %}
       </div>
@@ -67,9 +67,8 @@
     <div class="form-row mt-1">
       {% if form.month and form.month.widget.input_type != "hidden" %}
       <div class="form-group col-md-4">
-        <!-- {{form.month.label}} -->
         Month:
-        {{form.month(class="search-field form-control")}}
+        {{form.month(placeholder=form.month.label.text, class="search-field form-control")}}
 
         {% for error in form.month.errors %}
         <span class="text-danger">{{ error }}</span>
@@ -81,7 +80,7 @@
       <div class='form-group col-md-4'>
         <!-- {{form.year.label}} -->
         Year:
-        {{form.year(placeholder="1915", class="search-field form-control")}}
+        {{form.year(placeholder=form.year.label.text, class="search-field form-control")}}
 
         {% for error in form.year.errors %}
         <span class="text-danger">{{ error }}</span>
@@ -110,13 +109,13 @@
 </section>
 
 <div class="d-flex p-5 justify-content-center">
-  <h2 class="text-primary">Results for Ballot Propositions in {{year}}: </h2>
+  <h2 class="text-primary">{{results_total}} Results for Ballot Propositions in {{year}}: </h2>
 </div>
 
 <!-- Make area to populate list of ballot> -->
 <section class="ballotList row">
   {% for ballot in ballots %}
-  <div data-ballot-id="${ballot.subject}" class="Show col-md-6 col-lg-5 ml-5 mr-4">
+  <div data-ballot-id="${ballot.ballot_subject}" class="Show col-md-6 col-lg-5 ml-5 mr-4 mb-5">
     <div class="media">
       <h4 src="" alt="" class="w-2 mr-3 text-info">{{ballot.prop_letter}}</h4>
       <div class="media-body">
@@ -125,6 +124,23 @@
         <div class="description" style="text-align: justify;">
           <p>{{ ballot.description }}</p>
         </div>
+
+        <div class="pdf-available">
+          Voter Pamphlet (pdf):
+          {% if ballot.pdf_avaliable != "no image" %}
+          <b>
+            <a href="https://webbie1.sfpl.org/multimedia/pdf/elections/{{ballot.pdf_available}}.pdf" target="_blank"
+              rel="noopener noreferrer"> {{ballot.pdf_available}} </a>
+          </b>
+        
+          {% else %}
+          <b class="text-info">
+        
+            {{ballot.pdf_available}}
+          </b>
+          {% endif %}
+        </div>
+
 
         <div class="type-of-measure"> Type of Measure: <b class="text-info"> {{ballot.type_of_measure}}</b></div>
 
@@ -138,20 +154,20 @@
         <div class="description">
           Proposition: <b class="text-info">{{ ballot.prop_letter }}</b>
         </div>
-        <div class="percent"> {{display_vote_percents(ballot.percent_vote)}}</div>
+        <div class="percent"> {{displayVotePercents(ballot.percent_vote)}}</div>
         <!-- <div class="percent"> Percent of Yes Votes: {{"%.4f"|format(ballot.percent_vote|float)}}</div> -->
-        <table class="table table-bordered table-sm col-6 table-primary mt-1">
-          <thead class="">
-            <tr class="">
+
+        <table class="table table-bordered table-hover table-sm  text-center col-6 mt-1">
+          <thead>
+            <tr class="table-primary">
               <th scope="col">Yes Votes</th>
               <th scope="col">No Votes</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Will take out votes string: {{ballot.vote_counts}} -->
-            <tr class="">
-              <th scope="row">{{yes_votes(ballot.vote_counts)}}</th>
-              <th scope="row">{{no_votes(ballot.vote_counts)}}</th>
+            <tr class="table-dark">
+              <th scope="row align-text-center">{{yesVotes(ballot.vote_counts)}}</th>
+              <th scope="row">{{noVotes(ballot.vote_counts)}}</th>
             </tr>
           </tbody>
         </table>

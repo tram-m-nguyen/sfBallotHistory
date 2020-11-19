@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  
+
   <!-- Using Template Inheritance on <title>  -->
   <title>{% block title %} {% endblock %}</title>
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- bootstrap -->
   <link href="https://bootswatch.com/4/superhero/bootstrap.css" rel="stylesheet">
-  
+
   <!-- CSS -->
   <link href="/static/base.css" rel="stylesheet">
 </head>
+
 <body>
-    
-    {% block content %} 
-    {% endblock %}
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/axios/dist/axios.js"></script>
-    <script src="/static/ballots.js"></script>
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+
+
+  {% block content %}
+
+  {% endblock %}
+
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="/static/ballots.js"></script>
 
 </body>
+
 </html>
-
-
