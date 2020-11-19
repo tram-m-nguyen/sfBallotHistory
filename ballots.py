@@ -11,7 +11,7 @@ def get_ballots_for_queries(year=None, month=None, subject=None, pass_or_fail=No
 
     Return [] array if no ballots found, 
         else: array of ballot dictionaries like[{month, year, letter, subject, 
-        yes_votes, no_votes, pass_or_fail, percent, type_measure, by, keyworkd1 
+        yesVotes, noVotes, pass_or_fail, percent, type_measure, by, keyworkd1 
         keyword2, or keyword3, or keyword4 or keyword5}]
     
     Year is the only Integer, the rest of the parameters are strings.
