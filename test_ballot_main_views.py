@@ -11,7 +11,7 @@ from flask import session
 from models import db, connect_db, BallotsFromMainDB
 
 # to sue diff db for testing
-os.environ['DATABASE_URL'] = "postgresql:///ballot_history_test"
+os.environ['DATABASE_URL'] = "postgresql:///ballot-history-test"
 
 from app import app, SEARCH_INPUTS
 

@@ -14,7 +14,7 @@ from models import db, BallotsFromMainDB
 # before app import, set an environmental variable to use a separate db for the 
 # tests -- need this before app import since it's already connected to the db
 
-os.environ['DATABASE_URL'] = "postgresql:///ballot_history_test"
+os.environ['DATABASE_URL'] = "postgresql:///ballot-history-test"
 
 # now import app
 

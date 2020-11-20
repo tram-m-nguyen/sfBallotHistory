@@ -16,13 +16,14 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 # Creates flask application
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", 'shhh')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgres:///ballot_history')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", 'shhh')
 # this is for staging
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///ballot_history'
 
