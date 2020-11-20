@@ -18,17 +18,15 @@ class BallotSearch(db.Model):
     type_of_measure = db.Column(db.String(200), nullable=False, default="")
     measure_placed_on_ballot_by = db.Column(db.String(200), nullable=False, default="")
     pass_or_fail = db.Column(db.Text, nullable=False, default="")
-    #don't include keyword form api because the maindB is more exhaustive
-    #keyword = db.Column(db.Text, default="")
 
 
     def __repr__(self):
         """Return representation of search instance."""
 
-        return f"<BallotSearch year: {self.year}, month: {self.month}, \n \
+        return f" <BallotSearch year: {self.year}, month: {self.month}, \n \
                 ballot_subject: {self.ballot_subject}, type_of_measure: {self.type_of_measure}, \n \
                 measure_placed_by: {self.measure_placed_on_ballot_by}, \n \
-                pass_of_fail: {self.pass_or_fail} >"
+                pass_of_fail: {self.pass_or_fail}> "
     
 
     def serialize(self):
@@ -116,7 +114,7 @@ class BallotsFromMainDB(db.Model):
                 votes_counts: {self.vote_counts}, \n \
                 percent: {self.percent_vote}, \n \
                 percent_required_to_pass: {self.percent_required_to_pass}, \n \
-                pdf_avail: {self.pdf_available} >"
+                pdf_avail: {self.pdf_available}>"
   
    
     def serialize(self):
