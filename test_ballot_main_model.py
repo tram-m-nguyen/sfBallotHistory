@@ -6,7 +6,6 @@
 
 import os 
 from unittest import TestCase
-from sqlalchemy import exc 
 
 from models import db, BallotsFromMainDB
 
@@ -28,27 +27,24 @@ app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
 
 db.create_all()
 
-#create class model test, naming exactly
-class BallotsFromMainDBModelTestCase(TestCase):
+
+class BallotsMainDBModelTestCase(TestCase):
     """Test Models for BallotsFromMainDB."""
 
-    #this stuff to do before every test.
     def setUp(self):
-        """Create test, and add sample data."""
-
-        # BallotsFromMainDB.query.delete()
-        # BallotsFromMainDB.query.delete()
+        """Create test, and add sample data before every test."""
+        
         db.drop_all()
         db.create_all()
 
-
-        #create a ballot
         ballot1 = BallotsFromMainDB(
-            year = 2900, 
-            month = "November",
-            prop_letter= "1",
-            subject= "Recall of Elected Officials", 
-            type_of_measure= "Charter Amendment", 
+            year=2900, 
+            month="November",
+            day=2,
+            date="November 2, 2900",
+            prop_letter="1",
+            ballot_subject="Recall of Elected Officials", 
+            type_of_measure="Charter Amendment", 
             measure_placed_on_ballot_by="Supervisors", 
             description= "Setting forth a proposal relating to bonds issued for \
             the acquisition of public utilities, the registration thereof, and \
@@ -56,28 +52,29 @@ class BallotsFromMainDBModelTestCase(TestCase):
             fund, and to bonds issued for the acquisition of land and the \
             construction or acquisition of any permanent building or buildings, \
             improvement or improvements.", 
-            pass_of_fail= "P",
-            votes_counts="Yes: 23,257  /  No: 4,637",
-            percent= "Yes: 64.3%  /  No: 35.6%", 
-            percent_required_to_pass= "50%+1", 
-            pdf_avail= "November5_2900"
+            pass_or_fail="P",
+            vote_counts="Yes: 23,257  /  No: 4,637",
+            percent_vote="Yes: 64.3%  /  No: 35.6%", 
+            percent_required_to_pass="50%+1", 
+            pdf_available="November5_2900",
 
         )
 
-        #create a ballot
         ballot2 = BallotsFromMainDB(
-            year = 3900, 
-            month = "December",
-            prop_letter= "1",
-            subject= "Recall of Elected Officials", 
-            type_of_measure= "Charter Amendment", 
+            year=2001, 
+            month="December",
+            day=2,
+            date="December 2, 2001",
+            prop_letter="1",
+            ballot_subject="Recall of Elected Officials", 
+            type_of_measure="Charter Amendment", 
             measure_placed_on_ballot_by="Supervisors", 
-            description= "Fix school parks",
-            pass_of_fail= "P", 
-            votes_counts="Yes: 3  /  No: 4,637",
-            percent= "Yes: 64.3%  /  No: 35.6%", 
-            percent_required_to_pass= "50%+1", 
-            pdf_avail= "November5_2900"
+            description="Fix school parks",
+            pass_or_fail="P", 
+            vote_counts="Yes: 3  /  No: 4,637",
+            percent_vote="Yes: 64.3%  /  No: 35.6%", 
+            percent_required_to_pass="50%+1", 
+            pdf_available="November5_2900",
 
         )
 
@@ -88,49 +85,78 @@ class BallotsFromMainDBModelTestCase(TestCase):
         #get ballots from database
         ballots = BallotsFromMainDB.query.all()
 
-        ballot1 = ballots[0]
-        print('this is ballot1', ballot1)
-        ballot2 = ballots[1]
-
         self.ballot1 = ballot1
         self.ballot2 = ballot2
 
-        self.client = app.test_client()
 
-        def tearDown(self):
-            """Clean up transactions after each test."""
-
-            result = super().tearDown()
-            db.session.rollback()
-            return result
-
-        def test_ballot_main_model(self):
-            """Does my basic model work?"""
+    def tearDown(self):
+        """Clean up transactions after each test."""
             
-            ballot3 = BallotsFromMainDB(
-            year = 3000, 
-            month = "January",
-            prop_letter= "1",
-            subject= "More Money For Clinics", 
-            type_of_measure= "Charter Amendment", 
-            measure_placed_on_ballot_by="Supervisors", 
-            description= "Fix clinics",
-            pass_of_fail= "P",
-            votes_counts="Yes: 300001 /  No: 47",
-            percent= "Yes: 64.3%  /  No: 35.6%", 
-            percent_required_to_pass= "50%+1", 
-            pdf_avail= "noimage"
+        result = super().tearDown()
+        db.session.rollback()
+        return result
 
-            )
 
-            #add this test ballot to db
-            db.session.add(ballot3)
-            db.session.commit()
+    def test_ballotMainModel(self):
+        """Does my basic model work?"""
+        
+        ballot3 = BallotsFromMainDB(
+        year = 3000, 
+        month = "January",
+        day=29,
+        date="January 29, 2900",
+        prop_letter= "1",
+        ballot_subject= "More Money For Clinics", 
+        type_of_measure= "Charter Amendment", 
+        measure_placed_on_ballot_by="Supervisors", 
+        description= "Fix clinics",
+        pass_or_fail= "P",
+        vote_counts="Yes: 300001 /  No: 47",
+        percent_vote= "Yes: 64.3%  /  No: 35.6%", 
+        percent_required_to_pass= "50%+1", 
+        pdf_available= "noimage"
+        )
 
-            ballots = BallotsFromMainDB.query.all()
-            ballot3 = ballots[2]
-            #there should be 2 ballots in the db
-            self.assertEqual(len(ballots), 3)
-            self.assertEqual(self.ballot1.year, 2009)
-            self.assertEqual(self.ballot2.year, 2000)
-            self.assertEqual(ballot3.subject, "More Money For Clinics")
+        db.session.add(ballot3)
+        db.session.commit()
+
+        ballot1_description= "Setting forth a proposal relating to bonds issued for \
+            the acquisition of public utilities, the registration thereof, and \
+            the levy of taxes to provide for the interest thereon and a sinking \
+            fund, and to bonds issued for the acquisition of land and the \
+            construction or acquisition of any permanent building or buildings, \
+            improvement or improvements."
+
+        ballots = BallotsFromMainDB.query.all()
+
+        self.assertEqual(len(ballots), 3)
+        self.assertEqual(self.ballot1.year, 2900)
+        self.assertEqual(self.ballot1.description, ballot1_description)
+        self.assertNotEqual(self.ballot1.description, "Not this description")
+
+        self.assertEqual(self.ballot2.year, 2001)
+        self.assertEqual(ballot3.ballot_subject, "More Money For Clinics")
+        self.assertEqual(ballot3.pdf_available, "noimage")
+        self.assertNotEqual(ballot3.pass_or_fail, "F")
+
+
+    def test_userRepr(self):
+        '''Does the __repr__ method work?'''
+
+        ballotRepr2 = f"<BallotsFromMainDB year: {self.ballot2.year}, month: {self.ballot2.month}, \n \
+                ballot_subject: {self.ballot2.ballot_subject}, \n \
+                prop_letter: {self.ballot2.prop_letter}, \n \
+                type_of_measure: {self.ballot2.type_of_measure}, \n \
+                measure_placed_on_ballot_by: {self.ballot2.measure_placed_on_ballot_by}, \n \
+                description: {self.ballot2.description}, \n \
+                pass_of_fail: {self.ballot2.pass_or_fail}, \n\
+                votes_counts: {self.ballot2.vote_counts}, \n \
+                percent: {self.ballot2.percent_vote}, \n \
+                percent_required_to_pass: {self.ballot2.percent_required_to_pass}, \n \
+                pdf_avail: {self.ballot2.pdf_available}>"
+
+        self.assertEqual(repr(self.ballot2), ballotRepr2)
+        self.assertNotEqual(repr(self.ballot1), ballotRepr2)
+
+
+        
