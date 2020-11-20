@@ -1,1 +1,0 @@
-Simple Flask app to search ballot history
