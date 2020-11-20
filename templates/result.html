@@ -53,7 +53,7 @@
       {% if form.measure_placed_on_ballot_by and form.measure_placed_on_ballot_by.widget.input_type != "hidden" %}
       <div class="form-group col-md-6">
         <!-- {{form.measure_placed_on_ballot_by.label}} -->
-        How it was placed on the ballot:
+        How it was placed on the ballot: {{search_inputs["measure_placed_on_ballot_by"]}}
         {{form.measure_placed_on_ballot_by(placeholder=search_inputs["measure_placed_on_ballot_by"] ,class="search-field form-control")}}
 
         {% for error in form.measure_placed_on_ballot_by.errors %}
@@ -91,7 +91,8 @@
       <div class='form-group col-md-4'>
         <!-- {{form.pass_or_fail.label}} -->
         Status:
-        {{form.pass_or_fail(placeholder=search_inputs["pass_or_fail"], class="search-field form-control")}}
+        {{final_search_inputs["pass_or_fail"]}}
+        {{form.pass_or_fail(value=final_search_inputs["pass_or_fail"], class="search-field form-control")}}
 
         {% for error in form.pass_or_fail.errors %}
         <span class="text-danger">{{ error }}</span>
@@ -107,9 +108,11 @@
   </form>
 </section>
 
-<div class="d-flex p-5 justify-content-center">
-  <h2 class="text-primary">{{results_total}} Results for Ballot Propositions in {{year}}: </h2>
+
+<div class="d-flex pt-0 p-5 justify-content-center">
+  <h2 class="text-primary">{{results_total}} results found for Ballot Propositions in {{year}}:</h2>
 </div>
+
 
 <!-- Make area to populate list of ballot> -->
 <section class="ballotList row">
@@ -128,8 +131,8 @@
           Voter Pamphlet (pdf):
           {% if ballot.pdf_avaliable != "no image" %}
           <b>
-            <a href="https://webbie1.sfpl.org/multimedia/pdf/elections/{{ballot.pdf_available}}.pdf"
-              target="_blank" rel="noopener noreferrer"> {{ballot.pdf_available}} </a>
+            <a href="https://webbie1.sfpl.org/multimedia/pdf/elections/{{ballot.pdf_available}}.pdf" target="_blank"
+              rel="noopener noreferrer"> {{ballot.pdf_available}} </a>
           </b>
 
           {% else %}
