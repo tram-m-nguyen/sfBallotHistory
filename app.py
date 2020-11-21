@@ -9,16 +9,16 @@ from helpers import yesVotes, noVotes, displayVotePercents, isFormEmpty, \
     canTurnIntoInteger, turnStrIntoSqlQuery, removeEmptyValues
 import copy
 from sqlalchemy import and_
+from flask_debugtoolbar import DebugToolbarExtension
+
 
 SEARCH_INPUTS = 'searchinputs'
-
-from flask_debugtoolbar import DebugToolbarExtension
 
 # Creates flask application
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgres:///ballot_history')
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ.get('DATABASE_URL', 'postgres:///ballot_history'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
