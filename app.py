@@ -18,7 +18,7 @@ SEARCH_INPUTS = 'searchinputs'
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgres:///ballot_history'))
+    os.environ.get('DATABASE_URL', 'postgres:///sfBallotHistory'))
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 #     'DATABASE_URL', 'postgres:///flask-heroku')
@@ -29,7 +29,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", 'shhh')
 
 # this is for staging
-# app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///ballot_history'
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///sfBallotHistory'
 
 # To use debugger
 debug = DebugToolbarExtension(app)
