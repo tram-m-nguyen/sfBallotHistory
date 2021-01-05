@@ -1,4 +1,6 @@
-from apis_k import API_SECRET_KEY
+# from apis_k import API_SECRET_KEY
+import os
+API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 import requests
 
 """Function for handling api call to get search queries"""

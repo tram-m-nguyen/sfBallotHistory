@@ -19,6 +19,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///ballot_history'))
+    
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 #     'DATABASE_URL', 'postgres:///flask-heroku')
